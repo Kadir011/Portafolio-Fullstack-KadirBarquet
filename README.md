@@ -5,7 +5,7 @@
 <strong>Portafolio personal como desarrollador Full Stack, especializado en Backend</strong>
 
 <p>
-  <a href="#"><img src="https://img.shields.io/badge/DEMO%20EN%20VIVO-Pr%C3%B3ximamente-3b82f6?style=for-the-badge&logo=vercel&logoColor=white" alt="Demo en vivo"></a>
+  <a href="https://kadir-barquet-portfolio.vercel.app/"><img src="https://img.shields.io/badge/DEMO%20EN%20VIVO-kadir--barquet--portfolio.vercel.app-3b82f6?style=for-the-badge&logo=vercel&logoColor=white" alt="Demo en vivo"></a>
 </p>
 
 <p>
@@ -18,7 +18,7 @@
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-yellow" alt="Estado: en desarrollo">
+  <img src="https://img.shields.io/badge/Estado-Desplegado-green" alt="Estado: desplegado">
 </p>
 
 </div>
@@ -50,6 +50,8 @@
 Este repositorio contiene mi portafolio personal como desarrollador Full Stack. No es un ejercicio de plantilla: es una carta de presentación funcional, con formulario de contacto que guarda mensajes en una base de datos real y envía notificación por correo, descarga de CV, y una selección curada de mis proyectos más representativos (con enlaces a demo en vivo y repositorio).
 
 El sitio está pensado para responder tres preguntas en los primeros segundos de cualquier visitante: **quién soy, qué construyo y con qué tecnologías** — sin depender de una plantilla genérica ni de texto de relleno.
+
+> **Demo en vivo:** [kadir-barquet-portfolio.vercel.app](https://kadir-barquet-portfolio.vercel.app/)
 
 ## Características
 
@@ -105,8 +107,8 @@ El sitio está pensado para responder tres preguntas en los primeros segundos de
   </tr>
   <tr>
     <td>Iconografía</td>
-    <td><img src="https://img.shields.io/badge/lucide--react-black" alt="lucide-react"></td>
-    <td>Íconos de redes sociales y UI</td>
+    <td><img src="https://img.shields.io/badge/lucide--react-black" alt="lucide-react"> <img src="https://img.shields.io/badge/react--icons-black" alt="react-icons"></td>
+    <td><code>lucide-react</code> para íconos de UI (descarga, menú); <code>react-icons</code> para los íconos de marca de LinkedIn y GitHub</td>
   </tr>
   <tr>
     <td>Despliegue</td>
@@ -142,7 +144,7 @@ portafolio-kadir/
 │       ├── project-card.tsx    # Card individual de proyecto (con imagen)
 │       ├── tech-badge.tsx      # Badge de tecnología
 │       ├── contact-form.tsx    # Formulario (Client Component)
-│       ├── social-links.tsx    # Íconos LinkedIn/GitHub/Email
+│       ├── social-links.tsx    # Íconos LinkedIn/GitHub (react-icons) + Email (lucide-react)
 │       ├── tilt-card.tsx       # Wrapper de tilt 3D para las project cards
 │       ├── photo-tilt.tsx      # Wrapper de tilt 3D para la foto de perfil
 │       ├── reveal.tsx          # Wrapper de scroll-reveal (IntersectionObserver)
@@ -243,11 +245,15 @@ La política permite `INSERT` público (necesario para que el formulario funcion
 
 ## Despliegue en Vercel
 
+El proyecto está desplegado en **[kadir-barquet-portfolio.vercel.app](https://kadir-barquet-portfolio.vercel.app/)**, con CI/CD automático: cada push a `main` genera un nuevo deploy de producción, y cada pull request genera un preview deploy independiente.
+
+Para desplegar tu propia copia:
+
 1. Sube el repositorio a GitHub (si no lo está ya).
 2. En [vercel.com](https://vercel.com/), selecciona **Add New → Project** e importa el repositorio.
 3. Vercel detecta Next.js automáticamente — no requiere configuración de build adicional.
 4. En **Settings → Environment Variables**, agrega las 5 variables listadas arriba (mismos valores que en `.env.local`).
-5. Despliega. Cada push a `main` genera un nuevo deploy de producción automáticamente; cada pull request genera un preview deploy independiente.
+5. Despliega.
 
 ## Contenido y proyectos mostrados
 
@@ -271,5 +277,6 @@ Full Stack Developer — Guayaquil, Ecuador
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-kadir--barquet--bravo-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kadir-barquet-bravo/)
 [![GitHub](https://img.shields.io/badge/GitHub-Kadir011-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Kadir011)
 [![Email](https://img.shields.io/badge/Email-barquetbravokadir%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:barquetbravokadir@gmail.com)
+[![Live](https://img.shields.io/badge/Live_Demo-kadir--barquet--portfolio-3b82f6?style=for-the-badge&logo=vercel&logoColor=white)](https://kadir-barquet-portfolio.vercel.app/)
 
 </div>
