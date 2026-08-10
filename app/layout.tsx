@@ -19,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="es" className={inter.variable}>
       <body className="bg-neutral-950 text-neutral-100 antialiased">
-        <div className="animated-bg" aria-hidden="true" />
+        <div className="animated-bg" aria-hidden="true">
+          <div className="animated-bg-extra" />
+        </div>
         <PageLoader>{children}</PageLoader>
       </body>
     </html>

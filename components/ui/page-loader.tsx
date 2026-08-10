@@ -6,19 +6,17 @@ export function PageLoader({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1100)
+    const timer = setTimeout(() => setLoading(false), 1200)
     return () => clearTimeout(timer)
   }, [])
 
   return (
     <>
       <div
-        className={`loader-overlay ${!loading ? 'loader-hidden' : ''}`}
+        className={`splash-overlay ${!loading ? 'splash-hidden' : ''}`}
         aria-hidden={!loading}
       >
-        <div className="loader-monogram">
-          <span className="loader-monogram-inner">KB</span>
-        </div>
+        <span className="splash-monogram">KB</span>
       </div>
 
       <div className={`page-content ${!loading ? 'page-content-visible' : ''}`}>
