@@ -16,7 +16,11 @@ export function PageLoader({ children }: { children: React.ReactNode }) {
         className={`splash-overlay ${!loading ? 'splash-hidden' : ''}`}
         aria-hidden={!loading}
       >
-        <span className="splash-monogram">KB</span>
+        <span className="splash-terminal">
+          <span className="dim">$</span>
+          whoami
+          <span className="splash-cursor" />
+        </span>
       </div>
 
       <div className={`page-content ${!loading ? 'page-content-visible' : ''}`}>

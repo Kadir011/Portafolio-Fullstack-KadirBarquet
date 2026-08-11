@@ -15,16 +15,16 @@ export function PhotoTilt({ children }: { children: React.ReactNode }) {
     const centerX = rect.width / 2
     const centerY = rect.height / 2
 
-    const rotateX = ((y - centerY) / centerY) * -12
-    const rotateY = ((x - centerX) / centerX) * 12
+    const rotateX = ((y - centerY) / centerY) * -8
+    const rotateY = ((x - centerX) / centerX) * 8
 
-    el.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`
+    el.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`
   }
 
   function handleMouseLeave() {
     const el = ref.current
     if (!el) return
-    el.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)'
+    el.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)'
   }
 
   return (
@@ -32,7 +32,7 @@ export function PhotoTilt({ children }: { children: React.ReactNode }) {
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="photo-3d transition-transform duration-300 ease-out"
+      className="photo-3d transition-transform duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]"
     >
       {children}
     </div>

@@ -29,7 +29,7 @@ export function SocialLinks({ className = '' }: { className?: string }) {
           target={href.startsWith('mailto:') ? undefined : '_blank'}
           rel="noopener noreferrer"
           aria-label={label}
-          className="rounded-full border border-neutral-800 bg-neutral-900/60 p-2.5 text-neutral-400 transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/50 hover:text-blue-400"
+          className="rounded-full border border-border bg-surface p-2.5 text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
         >
           <Icon size={18} />
         </a>

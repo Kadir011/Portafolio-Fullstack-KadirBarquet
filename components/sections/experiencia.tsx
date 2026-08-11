@@ -24,24 +24,25 @@ const experiencia = [
 export function Experiencia() {
   return (
     <section id="experiencia" className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <h2 className="text-2xl font-semibold">Experiencia</h2>
-      <p className="mt-2 text-neutral-400">
+      <h2 className="font-display text-2xl font-semibold">Experiencia</h2>
+      <p className="mt-2 text-muted">
         Resultados medibles en sistemas de producción, no solo tareas.
       </p>
 
-      <div className="mt-10 space-y-8 border-l border-neutral-800 pl-6">
+      <div className="mt-10 space-y-8 border-l border-border pl-6">
         {experiencia.map((exp) => (
-          <div key={exp.company} className="relative">
-            <span className="absolute -left-7.25 top-1.5 h-2.5 w-2.5 rounded-full bg-blue-500" />
+          <div key={exp.company} className="log-item">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-              <h3 className="font-semibold">{exp.role}</h3>
-              <span className="text-xs text-neutral-500">{exp.period}</span>
+              <h3 className="font-display font-semibold">{exp.role}</h3>
+              <span className="rounded border border-border bg-surface px-2 py-0.5 font-mono text-[11px] text-muted">
+                {exp.period}
+              </span>
             </div>
-            <p className="text-sm text-blue-400">{exp.company}</p>
-            <ul className="mt-3 space-y-1.5 text-sm text-neutral-400">
+            <p className="font-mono text-sm text-accent">@{exp.company}</p>
+            <ul className="mt-3 space-y-1.5 text-sm text-muted">
               {exp.points.map((p) => (
                 <li key={p} className="flex gap-2">
-                  <span className="mt-0.5 text-blue-400">→</span>
+                  <span className="mt-0.5 font-mono text-accent">→</span>
                   <span>{p}</span>
                 </li>
               ))}

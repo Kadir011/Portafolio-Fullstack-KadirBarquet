@@ -4,15 +4,33 @@ import { TechBadge } from './tech-badge'
 
 export function ProjectCard({ project }: { project: Project }) {
   const isFlagship = project.role === 'flagship'
+  const isLive = project.status === 'live'
 
   return (
     <article
-      className={`overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/50 transition-all duration-300 hover:border-neutral-700 hover:bg-neutral-900/80 ${
-        isFlagship ? 'ring-1 ring-blue-500/30' : ''
+      className={`overflow-hidden rounded-2xl border border-border bg-surface/60 transition-all duration-300 hover:border-border-hover hover:bg-surface ${
+        isFlagship ? 'ring-1 ring-accent/25' : ''
       }`}
     >
+      <div className="term-bar">
+        <span className="term-dot" />
+        <span className="term-dot" />
+        <span className="term-dot" />
+        <span className="ml-2 truncate font-mono text-xs text-muted">
+          ~/proyectos/{project.slug}
+        </span>
+        <span className="ml-auto flex items-center gap-1.5 font-mono text-[11px] text-muted">
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              isLive ? 'bg-accent' : 'bg-border-hover'
+            }`}
+          />
+          {isLive ? 'live' : 'local'}
+        </span>
+      </div>
+
       {project.image && (
-        <div className="relative aspect-video w-full overflow-hidden border-b border-neutral-800 bg-neutral-900">
+        <div className="relative aspect-video w-full overflow-hidden border-b border-border bg-bg">
           <Image
             src={project.image}
             alt={`Captura de pantalla de ${project.name}`}
@@ -25,25 +43,25 @@ export function ProjectCard({ project }: { project: Project }) {
 
       <div className={`p-5 sm:p-6 ${isFlagship ? 'md:p-8' : ''}`}>
         {isFlagship && (
-          <span className="mb-3 inline-block rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400">
-            Proyecto de titulación
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-md bg-accent-dim px-2.5 py-1 font-mono text-[11px] text-accent">
+            proyecto de titulación
           </span>
         )}
 
-        <h3 className={isFlagship ? 'text-2xl font-semibold' : 'text-xl font-semibold'}>
+        <h3 className={`font-display font-semibold ${isFlagship ? 'text-2xl' : 'text-xl'}`}>
           {project.name}
         </h3>
-        <p className="mt-1 text-sm text-neutral-400">{project.tagline}</p>
+        <p className="mt-1 text-sm text-muted">{project.tagline}</p>
 
         {project.problem && (
-          <p className="mt-4 text-sm text-neutral-300">{project.problem}</p>
+          <p className="mt-4 text-sm text-ink/80">{project.problem}</p>
         )}
 
         {project.highlights.length > 0 && (
-          <ul className="mt-4 space-y-1.5 text-sm text-neutral-400">
+          <ul className="mt-4 space-y-1.5 text-sm text-muted">
             {project.highlights.slice(0, isFlagship ? 4 : 2).map((h) => (
               <li key={h} className="flex gap-2">
-                <span className="text-blue-400">→</span>
+                <span className="font-mono text-accent">→</span>
                 {h}
               </li>
             ))}
@@ -59,25 +77,26 @@ export function ProjectCard({ project }: { project: Project }) {
         )}
 
         <div className="mt-6 flex flex-col gap-3 text-sm sm:flex-row">
-          {project.status === 'live' && project.liveUrl ? (
-            
-            <a  href={project.liveUrl}
+          {isLive && project.liveUrl ? (
+            <a
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-center font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-600/20 active:translate-y-0"
+              className="rounded-lg bg-accent px-4 py-2 text-center font-medium text-[#05130d] transition-all duration-200 hover:brightness-110 active:brightness-95"
             >
               Ver demo
             </a>
           ) : (
-            <span className="rounded-lg bg-neutral-800 px-4 py-2 text-center font-medium text-neutral-500">
-              Próximamente
+            <span className="rounded-lg border border-border px-4 py-2 text-center font-mono text-xs text-muted">
+              en desarrollo local
             </span>
           )}
-          
-          <a  href={project.githubUrl}
+
+          <a
+            href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg border border-neutral-700 px-4 py-2 text-center font-medium text-neutral-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-500 active:translate-y-0"
+            className="rounded-lg border border-border-hover px-4 py-2 text-center font-medium text-ink transition-all duration-200 hover:border-accent/50 hover:text-accent"
           >
             GitHub
           </a>

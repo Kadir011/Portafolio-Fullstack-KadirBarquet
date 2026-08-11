@@ -1,84 +1,72 @@
 @import "tailwindcss";
 
+/* ── Tokens: paleta e identidad tipográfica propias del proyecto ── */
+@theme {
+  --color-bg: #0b0d10;
+  --color-surface: #12151a;
+  --color-surface-hover: #171b21;
+  --color-border: #20252c;
+  --color-border-hover: #2d343d;
+  --color-ink: #e4e7eb;
+  --color-muted: #838e9c;
+  --color-accent: #3ed6a0;
+  --color-accent-soft: #a8f0d1;
+  --color-accent-dim: #163024;
+  --color-amber: #e8a33d;
+
+  --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
 :root {
   --font-sans: var(--font-inter);
 }
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
   position: relative;
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: rgb(59 130 246 / 0.3);
+  background-color: rgb(62 214 160 / 0.28);
+  color: #05130d;
 }
 
-/* ── Fondo animado: blobs de gradiente en movimiento ── */
-.animated-bg {
+/* ── Fondo: retícula tipo blueprint + un único halo ambiental ──
+   (reemplaza los "blobs" de gradiente flotantes: aquí la retícula
+   referencia directamente el mundo de sistemas/arquitectura del
+   contenido, en vez de decorar sin motivo) */
+.grid-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
-  overflow: hidden;
+  z-index: -2;
   pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 35%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 35%, transparent 90%);
 }
 
-.animated-bg::before,
-.animated-bg::after {
-  content: "";
-  position: absolute;
-  width: 60vmax;
-  height: 60vmax;
+.ambient-glow {
+  position: fixed;
+  z-index: -1;
+  top: -12%;
+  left: 50%;
+  translate: -50% 0;
+  width: 64vmax;
+  height: 64vmax;
   border-radius: 9999px;
-  filter: blur(70px);
-  opacity: 0.24;
+  background: radial-gradient(circle, rgb(62 214 160 / 0.10), transparent 65%);
+  pointer-events: none;
+  filter: blur(6px);
 }
 
-.animated-bg::before {
-  background: #3b82f6;
-  top: -15%;
-  left: -20%;
-  animation: float-blob-a 16s ease-in-out infinite;
-}
-
-.animated-bg::after {
-  background: #6366f1;
-  bottom: -20%;
-  right: -20%;
-  animation: float-blob-b 20s ease-in-out infinite;
-}
-
-.animated-bg-extra {
-  position: absolute;
-  width: 48vmax;
-  height: 48vmax;
-  border-radius: 9999px;
-  background: #22d3ee;
-  filter: blur(80px);
-  opacity: 0.14;
-  top: 35%;
-  left: 40%;
-  animation: float-blob-c 24s ease-in-out infinite;
-}
-
-@keyframes float-blob-a {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(10vw, 6vw) scale(1.15); }
-  66% { transform: translate(4vw, 12vw) scale(0.95); }
-}
-
-@keyframes float-blob-b {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-8vw, -10vw) scale(1.1); }
-  66% { transform: translate(-12vw, -4vw) scale(0.9); }
-}
-
-@keyframes float-blob-c {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-6vw, 8vw) scale(1.2); }
-}
-
-/* ── Splash screen: fondo visible, contenido revelado con cortina ── */
+/* ── Splash: boot sequence de terminal, no un monograma genérico ── */
 .splash-overlay {
   position: fixed;
   inset: 0;
@@ -86,6 +74,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--color-bg);
   transition: opacity 0.5s ease 0.1s;
 }
 
@@ -94,20 +83,40 @@ body {
   pointer-events: none;
 }
 
-.splash-monogram {
-  font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #60a5fa;
+.splash-terminal {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: var(--color-accent-soft);
   opacity: 0;
-  animation: splash-fade 1.4s ease forwards;
+  animation: splash-fade 1.3s ease forwards;
+}
+
+.splash-terminal .dim {
+  color: var(--color-muted);
+  margin-right: 0.5rem;
+}
+
+.splash-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 3px;
+  background: var(--color-accent);
+  animation: caret-blink 0.9s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
 }
 
 @keyframes splash-fade {
-  0% { opacity: 0; transform: scale(0.9); }
-  25% { opacity: 1; transform: scale(1); }
-  75% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.05); }
+  0% { opacity: 0; transform: translateY(4px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* El contenido se revela con un "wipe" circular desde el centro */
@@ -120,38 +129,41 @@ body {
   clip-path: circle(150% at 50% 35%);
 }
 
-/* ── Texto con gradiente animado ── */
-.gradient-text {
-  background: linear-gradient(90deg, #60a5fa, #818cf8, #60a5fa);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: gradient-shift 6s ease-in-out infinite;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% center; }
-  50% { background-position: 100% center; }
-}
-
-/* ── Anillo brillante detrás de la foto ── */
-.photo-glow {
+/* ── Marco tipo "device frame" con indicador de estado en vivo ──
+   (reemplaza el anillo cónico girando detrás de la foto: un dato
+   real del contenido — "sistemas en producción" — como motivo) */
+.device-frame {
   position: relative;
+  border-radius: 1.5rem;
+  padding: 5px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-hover);
 }
 
-.photo-glow::before {
+.status-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  border: 3px solid var(--color-bg);
+}
+
+.status-dot::after {
   content: "";
   position: absolute;
-  inset: -6px;
+  inset: -3px;
   border-radius: 9999px;
-  background: conic-gradient(from 0deg, #3b82f6, #818cf8, #3b82f6);
-  animation: rotate-glow 6s linear infinite;
-  z-index: -1;
+  box-shadow: 0 0 0 0 rgb(62 214 160 / 0.55);
+  animation: status-pulse 2.4s ease-out infinite;
 }
 
-@keyframes rotate-glow {
-  to { transform: rotate(360deg); }
+@keyframes status-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(62 214 160 / 0.5); }
+  70% { box-shadow: 0 0 0 9px rgb(62 214 160 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(62 214 160 / 0); }
 }
 
 /* ── Utilidades de entrada (usadas en el Hero) ── */
@@ -161,7 +173,7 @@ body {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.7s ease-out both;
+  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-delay-100 { animation-delay: 0.1s; }
@@ -181,26 +193,49 @@ body {
   transform: translateY(0);
 }
 
-/* ── 3D tilt en las project cards (usado por components/ui/tilt-card.tsx) ── */
+/* ── 3D tilt (usado por tilt-card.tsx / photo-tilt.tsx) ──
+   easing tipo "spring" en vez de una interpolación lineal seca */
 .tilt-card {
   transform-style: preserve-3d;
-  transition: transform 0.15s ease-out;
   will-change: transform;
+}
+
+/* ── Chrome de "ventana de terminal" para las project cards ── */
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  background: #0e1013;
+}
+
+.term-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-border-hover);
+}
+
+/* ── Timeline de experiencia estilo "log" ── */
+.log-item {
+  position: relative;
+}
+
+.log-item::before {
+  content: "";
+  position: absolute;
+  left: -1.5rem;
+  top: 0.5rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-dim);
 }
 
 /* ── Accesibilidad: apaga animaciones si el usuario lo pide ── */
 @media (prefers-reduced-motion: reduce) {
-  .animated-bg::before,
-  .animated-bg::after,
-  .animated-bg-extra {
-    animation: none;
-  }
-  .gradient-text {
-    animation: none;
-  }
-  .photo-glow::before {
-    animation: none;
-  }
   .animate-fade-in-up {
     animation: none;
     opacity: 1;
@@ -216,6 +251,13 @@ body {
   }
   .page-content {
     clip-path: none;
+    transition: none;
+  }
+  .status-dot::after,
+  .splash-cursor {
+    animation: none;
+  }
+  .tilt-card {
     transition: none;
   }
 }
