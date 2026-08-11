@@ -18,7 +18,7 @@ export function PageLoader({ children }: { children: React.ReactNode }) {
       >
         <span className="splash-terminal">
           <span className="dim">$</span>
-          whoami
+          KB
           <span className="splash-cursor" />
         </span>
       </div>

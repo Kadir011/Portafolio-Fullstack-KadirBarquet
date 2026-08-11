@@ -29,7 +29,7 @@ export function Hero() {
       </div>
 
       <p className="animate-fade-in-up animate-delay-100 mt-7 font-mono text-xs text-accent">
-        <span className="text-muted">$</span> whoami
+        <span className="text-muted">$</span> KB
       </p>
 
       <h1 className="animate-fade-in-up animate-delay-100 mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
