@@ -3,9 +3,8 @@
 import { useState } from 'react'
 
 const links = [
-  { href: '#experiencia', label: 'experiencia' },
+  { href: '#about', label: 'about' },
   { href: '#proyectos', label: 'proyectos' },
-  { href: '#stack', label: 'stack' },
   { href: '#contacto', label: 'contacto' },
 ]
 

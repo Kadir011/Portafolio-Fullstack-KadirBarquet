@@ -234,6 +234,31 @@ body {
   box-shadow: 0 0 0 3px var(--color-accent-dim);
 }
 
+/* Variante hueca del punto — usada en certificaciones dentro del
+   timeline de Formación, para distinguirlas del hito principal
+   (título) sin salir de la misma familia visual */
+.log-item--hollow::before {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border-hover);
+  box-shadow: none;
+}
+
+/* ── Tarjeta de timeline con profundidad 3D sutil ──
+   Inspirada en el timeline-content-card de referencia, pero
+   reconstruida sobre tilt-card.tsx (ya usado en Proyectos) en vez
+   de glassmorphism: mismo lenguaje de "ventana" en toda la app. */
+.timeline-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.3s ease;
+}
+
+.timeline-card:hover {
+  border-color: var(--color-border-hover);
+}
+
 /* ── Accesibilidad: apaga animaciones si el usuario lo pide ── */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up {
