@@ -22,17 +22,79 @@
   --font-sans: var(--font-inter);
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
   background: var(--color-bg);
   color: var(--color-ink);
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 ::selection {
   background-color: rgb(62 214 160 / 0.28);
   color: #05130d;
+}
+
+/* ── Layout horizontal: un carrusel de pantalla completa por sección,
+   con navbar/footer fijos y scroll vertical propio dentro de cada panel
+   cuando el contenido excede el alto de la pantalla ── */
+.hscroll-container {
+  display: flex;
+  height: 100dvh;
+  width: 100vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hscroll-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.hscroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hscroll-container::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+}
+
+.hscroll-panel {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding-top: 4.5rem;
+  padding-bottom: 3.25rem;
+}
+
+.hscroll-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.hscroll-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hscroll-panel::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hscroll-container {
+    scroll-behavior: auto;
+  }
 }
 
 /* ── Fondo: retícula tipo blueprint + un único halo ambiental ──

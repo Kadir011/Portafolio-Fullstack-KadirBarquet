@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { Download } from 'lucide-react'
 import { SocialLinks } from '@/components/ui/social-links'
@@ -61,6 +63,12 @@ export function Hero() {
       <div className="animate-fade-in-up animate-delay-300 mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
         <a
           href="#proyectos"
+          onClick={(e) => {
+            e.preventDefault()
+            document
+              .getElementById('proyectos')
+              ?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' })
+          }}
           className="group rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-[#05130d] transition-all duration-200 hover:brightness-110 active:brightness-95"
         >
           Ver proyectos
