@@ -15,7 +15,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
-        <a href="#" className="font-mono text-sm font-medium tracking-tight">
+        <a href="#inicio" className="font-mono text-sm font-medium tracking-tight">
           <span className="text-muted">~/</span>kadir
         </a>
 
