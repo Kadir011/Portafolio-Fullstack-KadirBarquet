@@ -7,6 +7,7 @@ import { Formacion } from '@/components/sections/formacion'
 import { Proyectos } from '@/components/sections/proyectos'
 import { Contacto } from '@/components/sections/contacto'
 import { Reveal } from '@/components/ui/reveal'
+import { SectionBackdrop } from '@/components/ui/section-backdrop'
 
 export default function Home() {
   return (
@@ -15,31 +16,46 @@ export default function Home() {
       <main>
         <HorizontalScroll>
           <div id="inicio" className="hscroll-panel">
-            <Hero />
+            <SectionBackdrop variant="inicio" />
+            <div className="panel-scroll">
+              <Hero />
+            </div>
           </div>
 
           <div id="sobre-mi" className="hscroll-panel">
-            <Reveal>
-              <About />
-            </Reveal>
+            <SectionBackdrop variant="sobre-mi" />
+            <div className="panel-scroll">
+              <Reveal>
+                <About />
+              </Reveal>
+            </div>
           </div>
 
           <div id="formacion" className="hscroll-panel">
-            <Reveal>
-              <Formacion />
-            </Reveal>
+            <SectionBackdrop variant="formacion" />
+            <div className="panel-scroll">
+              <Reveal>
+                <Formacion />
+              </Reveal>
+            </div>
           </div>
 
           <div id="proyectos" className="hscroll-panel">
-            <Reveal>
-              <Proyectos />
-            </Reveal>
+            <SectionBackdrop variant="proyectos" />
+            <div className="panel-scroll">
+              <Reveal>
+                <Proyectos />
+              </Reveal>
+            </div>
           </div>
 
           <div id="contacto" className="hscroll-panel">
-            <Reveal>
-              <Contacto />
-            </Reveal>
+            <SectionBackdrop variant="contacto" />
+            <div className="panel-scroll">
+              <Reveal>
+                <Contacto />
+              </Reveal>
+            </div>
           </div>
         </HorizontalScroll>
       </main>

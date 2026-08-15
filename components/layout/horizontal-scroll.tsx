@@ -11,11 +11,10 @@ export function HorizontalScroll({ children }: { children: React.ReactNode }) {
     if (!container) return
     const el: HTMLDivElement = container
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const glow = document.querySelector<HTMLElement>('.ambient-glow')
 
     function onWheel(e: WheelEvent) {
       const target = e.target as HTMLElement
-      const panel = target.closest('.hscroll-panel') as HTMLElement | null
+      const panel = target.closest('.panel-scroll') as HTMLElement | null
 
       // Si el panel activo tiene contenido más alto que la pantalla,
       // dejamos que se desplace verticalmente primero — solo al llegar
@@ -52,20 +51,24 @@ export function HorizontalScroll({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Parallax sutil del halo de fondo: se corre horizontalmente a menor
-    // velocidad que los paneles, dando sensación de profundidad al pasar
-    // de sección — es la "transición grande" ligada al scroll horizontal.
+    // Parallax sutil: el fondo de cada panel se desplaza un poco menos
+    // que el panel mismo mientras se cruza, dando sensación de profundidad
+    // al pasar de sección — es la "transición grande" ligada al scroll.
     let ticking = false
     function onScrollParallax() {
-      if (reduced || !glow || ticking) return
+      if (reduced || ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        const max = el.scrollWidth - el.clientWidth
-        const progress = max > 0 ? el.scrollLeft / max : 0
-        animate(glow, {
-          translateX: `${progress * -12}%`,
-          duration: 200,
-          ease: 'outQuad',
+        document.querySelectorAll<HTMLElement>('.section-backdrop').forEach((backdrop) => {
+          const rect = backdrop.getBoundingClientRect()
+          const center = rect.left + rect.width / 2
+          const offset = (center - window.innerWidth / 2) / window.innerWidth
+          const clamped = Math.max(-1, Math.min(1, offset))
+          animate(backdrop, {
+            translateX: `${clamped * -30}px`,
+            duration: 200,
+            ease: 'outQuad',
+          })
         })
         ticking = false
       })

@@ -67,32 +67,43 @@ body {
 }
 
 .hscroll-panel {
+  position: relative;
   flex: 0 0 100vw;
   width: 100vw;
   height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* Capa scrolleable interna — separada del panel en sí para que los
+   blobs de fondo (absolutos sobre .hscroll-panel) no se muevan cuando
+   el contenido de la sección scrollea verticalmente. */
+.panel-scroll {
+  position: relative;
+  z-index: 1;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  scroll-snap-align: start;
   padding-top: 4.5rem;
   padding-bottom: 3.25rem;
 }
 
-.hscroll-panel::-webkit-scrollbar {
+.panel-scroll::-webkit-scrollbar {
   width: 4px;
 }
 
-.hscroll-panel::-webkit-scrollbar-track {
+.panel-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.hscroll-panel::-webkit-scrollbar-thumb {
+.panel-scroll::-webkit-scrollbar-thumb {
   background: var(--color-border-hover);
 }
 
-/* ── Fondo: retícula tipo blueprint + un único halo ambiental ──
-   (reemplaza los "blobs" de gradiente flotantes: aquí la retícula
-   referencia directamente el mundo de sistemas/arquitectura del
-   contenido, en vez de decorar sin motivo) */
+/* ── Fondo: retícula tipo blueprint (global) + blobs de gradiente
+   por sección. La retícula referencia el mundo de sistemas/arquitectura
+   del contenido; los blobs le dan a cada panel una atmósfera propia
+   y la respiran/desplazan con animejs (ver section-backdrop.tsx) ── */
 .grid-bg {
   position: fixed;
   inset: 0;
@@ -106,18 +117,19 @@ body {
   -webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 35%, transparent 90%);
 }
 
-.ambient-glow {
-  position: fixed;
+.section-backdrop {
+  position: absolute;
+  inset: 0;
   z-index: -1;
-  top: -12%;
-  left: 50%;
-  translate: -50% 0;
-  width: 64vmax;
-  height: 64vmax;
-  border-radius: 9999px;
-  background: radial-gradient(circle, rgb(61 127 255 / 0.10), transparent 65%);
+  overflow: hidden;
   pointer-events: none;
+}
+
+.section-blob {
+  position: absolute;
+  border-radius: 9999px;
   filter: blur(6px);
+  will-change: transform, opacity;
 }
 
 /* ── Splash: boot sequence de terminal, no un monograma genérico ── */

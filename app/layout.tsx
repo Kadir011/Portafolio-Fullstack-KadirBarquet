@@ -35,7 +35,6 @@ export default function RootLayout({
     >
       <body className="bg-bg text-ink antialiased">
         <div className="grid-bg" aria-hidden="true" />
-        <div className="ambient-glow" aria-hidden="true" />
         <ScrollProgress />
         <CustomCursor />
         <PageLoader>{children}</PageLoader>
