@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { PageLoader } from '@/components/ui/page-loader'
 import { ScrollProgress } from '@/components/ui/scroll-progress'
+import { CustomCursor } from '@/components/ui/custom-cursor'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -36,6 +37,7 @@ export default function RootLayout({
         <div className="grid-bg" aria-hidden="true" />
         <div className="ambient-glow" aria-hidden="true" />
         <ScrollProgress />
+        <CustomCursor />
         <PageLoader>{children}</PageLoader>
       </body>
     </html>
