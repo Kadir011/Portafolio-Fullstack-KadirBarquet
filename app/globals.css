@@ -51,7 +51,6 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -89,12 +88,6 @@ body {
 
 .hscroll-panel::-webkit-scrollbar-thumb {
   background: var(--color-border-hover);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hscroll-container {
-    scroll-behavior: auto;
-  }
 }
 
 /* ── Fondo: retícula tipo blueprint + un único halo ambiental ──
