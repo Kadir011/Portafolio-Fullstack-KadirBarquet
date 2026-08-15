@@ -8,14 +8,12 @@ export function ScrollProgress() {
   const ticking = useRef(false)
 
   useEffect(() => {
-    const container = document.getElementById('hscroll-container')
-    if (!container) return
-    const el: HTMLElement = container
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     function update() {
-      const max = el.scrollWidth - el.clientWidth
-      const progress = max > 0 ? (el.scrollLeft / max) * 100 : 0
+      const doc = document.documentElement
+      const max = doc.scrollHeight - doc.clientHeight
+      const progress = max > 0 ? (window.scrollY / max) * 100 : 0
       if (barRef.current) {
         if (reduced) {
           barRef.current.style.width = `${progress}%`
@@ -40,10 +38,10 @@ export function ScrollProgress() {
     }
 
     update()
-    el.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
     return () => {
-      el.removeEventListener('scroll', onScroll)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
   }, [])

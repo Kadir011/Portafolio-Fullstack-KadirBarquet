@@ -27,13 +27,15 @@ body {
   height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
   background: var(--color-bg);
   color: var(--color-ink);
   position: relative;
-  overflow: hidden;
-  overscroll-behavior: none;
 }
 
 ::selection {
@@ -41,63 +43,29 @@ body {
   color: var(--color-bg);
 }
 
-/* ── Layout horizontal: un carrusel de pantalla completa por sección,
-   con navbar/footer fijos y scroll vertical propio dentro de cada panel
-   cuando el contenido excede el alto de la pantalla ── */
-.hscroll-container {
-  display: flex;
-  height: 100dvh;
-  width: 100vw;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.hscroll-container::-webkit-scrollbar {
-  height: 4px;
-}
-
-.hscroll-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.hscroll-container::-webkit-scrollbar-thumb {
-  background: var(--color-border-hover);
-}
-
-.hscroll-panel {
+/* ── Layout vertical: una página única con una sección por bloque.
+   El navbar es sticky arriba; cada sección ocupa al menos el alto de
+   pantalla y se accede bajando o con los links del navbar (anclas). ── */
+.vscroll-panel {
   position: relative;
-  flex: 0 0 100vw;
-  width: 100vw;
-  height: 100dvh;
+  min-height: 100dvh;
   overflow: hidden;
-  scroll-snap-align: start;
+  /* offset para que el navbar sticky no tape la sección al saltar
+     a ella desde un link del navbar (ancla) */
+  scroll-margin-top: 4.5rem;
 }
 
-/* Capa scrolleable interna — separada del panel en sí para que los
-   blobs de fondo (absolutos sobre .hscroll-panel) no se muevan cuando
-   el contenido de la sección scrollea verticalmente. */
-.panel-scroll {
+/* Capa de contenido — separada del panel en sí para que los blobs de
+   fondo (absolutos sobre .vscroll-panel) no se muevan con el contenido. */
+.panel-content {
   position: relative;
   z-index: 1;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding-top: 4.5rem;
   padding-bottom: 3.25rem;
-}
-
-.panel-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-
-.panel-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.panel-scroll::-webkit-scrollbar-thumb {
-  background: var(--color-border-hover);
 }
 
 /* ── Fondo: retícula tipo blueprint (global) + una grilla de puntos
