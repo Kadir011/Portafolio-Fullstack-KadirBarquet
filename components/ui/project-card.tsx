@@ -36,7 +36,7 @@ export function ProjectCard({ project }: { project: Project }) {
       ref={ref}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`overflow-hidden rounded-2xl border border-border bg-surface/60 transition-colors duration-300 hover:border-border-hover hover:bg-surface ${
+      className={`overflow-hidden rounded-2xl border border-border bg-surface/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:shadow-[0_20px_50px_-20px_var(--color-accent)] ${
         isFlagship ? 'ring-1 ring-accent/25' : ''
       }`}
     >

@@ -1,19 +1,33 @@
-import { Code2, Layers, Award } from 'lucide-react'
-import { TechBadge } from '@/components/ui/tech-badge'
+import {
+  SiPython,
+  SiDjango,
+  SiFastapi,
+  SiNodedotjs,
+  SiReact,
+  SiPostgresql,
+  SiSupabase,
+  SiDocker,
+} from 'react-icons/si'
 import { TiltCard } from '@/components/ui/tilt-card'
 
 const stats = [
-  { icon: Code2, value: '3+', label: 'años de experiencia' },
-  { icon: Layers, value: '4', label: 'proyectos entregados' },
-  { icon: Award, value: '4', label: 'certificaciones' },
+  { shape: 'blue', value: '3+', label: 'años de experiencia' },
+  { shape: 'violet', value: '4', label: 'proyectos entregados' },
+  { shape: 'cyan', value: '4', label: 'certificaciones' },
+] as const
+
+const skills = [
+  { icon: SiPython, label: 'Python' },
+  { icon: SiDjango, label: 'Django' },
+  { icon: SiFastapi, label: 'FastAPI' },
+  { icon: SiNodedotjs, label: 'Node.js' },
+  { icon: SiReact, label: 'React' },
+  { icon: SiPostgresql, label: 'PostgreSQL' },
+  { icon: SiSupabase, label: 'Supabase' },
+  { icon: SiDocker, label: 'Docker' },
 ]
 
-const stack = [
-  'Python', 'Django', 'FastAPI',
-  'Node.js', 'React',
-  'PostgreSQL', 'Supabase',
-  'Docker',
-]
+const skillColors = ['var(--color-accent)', 'var(--color-violet)', 'var(--color-cyan)']
 
 export function About() {
   return (
@@ -23,33 +37,36 @@ export function About() {
         Backend-first, orientado a sistemas que no se caen en producción.
       </p>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+      <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6">
         {stats.map((stat) => (
           <TiltCard key={stat.label}>
-            <div className="stat-card">
-              <span className="stat-card-icon">
-                <stat.icon size={18} />
-              </span>
-              <p className="mt-4 font-display text-3xl font-bold">{stat.value}</p>
-              <p className="mt-1 font-mono text-xs text-muted">{stat.label}</p>
+            <div className="stat-orb-wrap p-4">
+              <div className={`stat-orb stat-orb-${stat.shape}`}>{stat.value}</div>
+              <span className="stat-orb-label">{stat.label}</span>
             </div>
           </TiltCard>
         ))}
       </div>
 
-      <div className="mt-12">
-        <h3 className="font-mono text-xs uppercase tracking-wide text-accent">
-          skills
+      <div className="mt-16">
+        <h3 className="text-center font-display text-lg font-semibold sm:text-left">
+          Habilidades y Tecnologías
         </h3>
-        <p className="mt-3 font-mono text-sm text-muted">
-          <span className="text-accent">import</span> {'{ '}
-          {stack.join(', ')}
-          {' }'} <span className="text-accent">from</span> &apos;produccion&apos;
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {stack.map((tech) => (
-            <TechBadge key={tech} label={tech} />
-          ))}
+        <div className="mt-6 grid grid-cols-4 gap-x-2 gap-y-6 sm:gap-x-4">
+          {skills.map((skill, i) => {
+            const color = skillColors[i % skillColors.length]
+            return (
+              <div key={skill.label} className="skill-icon-wrap">
+                <skill.icon
+                  size={34}
+                  className="skill-icon-glow"
+                  style={{ color }}
+                  aria-hidden="true"
+                />
+                <span className="font-mono text-[11px] text-muted">{skill.label}</span>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

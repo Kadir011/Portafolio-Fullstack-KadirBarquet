@@ -3,7 +3,13 @@
 import { useEffect, useRef } from 'react'
 import { animate, spring } from 'animejs'
 
-export function TiltCard({ children }: { children: React.ReactNode }) {
+export function TiltCard({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const glareRef = useRef<HTMLDivElement>(null)
   const reduced = useRef(false)
@@ -56,7 +62,7 @@ export function TiltCard({ children }: { children: React.ReactNode }) {
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="tilt-card relative overflow-hidden rounded-2xl"
+      className={`tilt-card relative overflow-hidden rounded-2xl ${className}`}
     >
       <div
         ref={glareRef}

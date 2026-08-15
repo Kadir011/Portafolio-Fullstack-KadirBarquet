@@ -31,33 +31,33 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <input
         name="name"
         required
         placeholder="Nombre"
-        className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-accent"
+        className="w-full rounded-lg border border-border bg-bg/60 px-4 py-2.5 text-sm text-ink outline-none transition-all focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-dim)]"
       />
       <input
         name="email"
         type="email"
         required
         placeholder="Email"
-        className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-accent"
+        className="w-full rounded-lg border border-border bg-bg/60 px-4 py-2.5 text-sm text-ink outline-none transition-all focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-dim)]"
       />
       <textarea
         name="message"
         required
         rows={4}
         placeholder="Mensaje"
-        className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-accent"
+        className="w-full rounded-lg border border-border bg-bg/60 px-4 py-2.5 text-sm text-ink outline-none transition-all focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-dim)]"
       />
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-bg transition hover:brightness-110 disabled:opacity-50"
+        className="w-full rounded-lg bg-gradient-to-r from-accent to-violet px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_-10px_var(--color-accent)] transition hover:brightness-110 disabled:opacity-50"
       >
-        {status === 'sending' ? 'Enviando...' : 'Enviar mensaje'}
+        {status === 'sending' ? 'Enviando...' : 'Enviar mensaje →'}
       </button>
 
       {status === 'sent' && (

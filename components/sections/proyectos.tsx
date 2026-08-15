@@ -11,9 +11,12 @@ export function Proyectos() {
         tutorial.
       </p>
 
-      <div className="mt-10 grid gap-6">
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
         {proyectos.map((project) => (
-          <TiltCard key={project.slug}>
+          <TiltCard
+            key={project.slug}
+            className={project.role === 'flagship' ? 'md:col-span-2' : ''}
+          >
             <ProjectCard project={project} />
           </TiltCard>
         ))}

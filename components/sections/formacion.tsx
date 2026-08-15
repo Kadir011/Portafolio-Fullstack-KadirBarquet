@@ -50,7 +50,7 @@ export function Formacion() {
       <div className="timeline mt-12">
         {timeline.map((item) => (
           <div key={item.title} className="timeline-item">
-            <div className="rounded-xl border border-border bg-surface p-5 transition-colors duration-200 hover:border-accent/40">
+            <div className="glow-card p-5">
               <div className="flex items-center justify-between gap-3">
                 <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wide text-accent">
                   <item.icon size={13} />
@@ -86,7 +86,7 @@ export function Formacion() {
           {certificaciones.map((cert) => (
             <div
               key={cert.name}
-              className="rounded-lg border border-border bg-surface px-4 py-3 transition-colors duration-200 hover:border-accent/40"
+              className="glow-card px-4 py-3"
             >
               <p className="text-sm font-medium text-ink">{cert.name}</p>
               <p className="mt-1 font-mono text-xs text-muted">
