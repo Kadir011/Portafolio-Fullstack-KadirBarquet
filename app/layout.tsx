@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { PageLoader } from '@/components/ui/page-loader'
+import { ScrollProgress } from '@/components/ui/scroll-progress'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body className="bg-bg text-ink antialiased">
         <div className="grid-bg" aria-hidden="true" />
         <div className="ambient-glow" aria-hidden="true" />
+        <ScrollProgress />
         <PageLoader>{children}</PageLoader>
       </body>
     </html>
