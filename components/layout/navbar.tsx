@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { animate, stagger } from 'animejs'
 
 const links = [
   { href: '#sobre-mi', label: 'sobre-mi' },
@@ -11,6 +12,37 @@ const links = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const menu = menuRef.current
+    if (!menu) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (open) {
+      const targetHeight = menu.scrollHeight
+
+      if (reduced) {
+        menu.style.height = `${targetHeight}px`
+        return
+      }
+
+      animate(menu, { height: [0, targetHeight], duration: 350, ease: 'outQuint' })
+      animate('.mobile-nav-item', {
+        opacity: [0, 1],
+        translateX: [-8, 0],
+        duration: 350,
+        delay: stagger(50, { start: 100 }),
+        ease: 'outQuint',
+      })
+    } else {
+      if (reduced) {
+        menu.style.height = '0px'
+        return
+      }
+      animate(menu, { height: 0, duration: 220, ease: 'inQuad' })
+    }
+  }, [open])
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur">
@@ -59,15 +91,16 @@ export function Navbar() {
         </button>
       </nav>
 
-      {/* Menú desplegable mobile */}
+      {/* Menú desplegable mobile — el alto y el stagger de entrada
+          de cada link los anima animejs (ver useEffect de arriba) */}
       <div
-        className={`overflow-hidden transition-all duration-300 sm:hidden ${
-          open ? 'max-h-60 border-t border-border' : 'max-h-0'
-        }`}
+        ref={menuRef}
+        style={{ height: 0 }}
+        className={`overflow-hidden sm:hidden ${open ? 'border-t border-border' : ''}`}
       >
         <ul className="flex flex-col gap-1 px-4 py-3 font-mono text-sm">
           {links.map((link) => (
-            <li key={link.href}>
+            <li key={link.href} className="mobile-nav-item">
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}

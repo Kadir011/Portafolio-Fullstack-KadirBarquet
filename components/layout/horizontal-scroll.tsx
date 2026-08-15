@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { animate } from 'animejs'
 
 export function HorizontalScroll({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -9,6 +10,8 @@ export function HorizontalScroll({ children }: { children: React.ReactNode }) {
     const container = ref.current
     if (!container) return
     const el: HTMLDivElement = container
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const glow = document.querySelector<HTMLElement>('.ambient-glow')
 
     function onWheel(e: WheelEvent) {
       const target = e.target as HTMLElement
@@ -49,10 +52,31 @@ export function HorizontalScroll({ children }: { children: React.ReactNode }) {
       }
     }
 
+    // Parallax sutil del halo de fondo: se corre horizontalmente a menor
+    // velocidad que los paneles, dando sensación de profundidad al pasar
+    // de sección — es la "transición grande" ligada al scroll horizontal.
+    let ticking = false
+    function onScrollParallax() {
+      if (reduced || !glow || ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const max = el.scrollWidth - el.clientWidth
+        const progress = max > 0 ? el.scrollLeft / max : 0
+        animate(glow, {
+          translateX: `${progress * -12}%`,
+          duration: 200,
+          ease: 'outQuad',
+        })
+        ticking = false
+      })
+    }
+
     el.addEventListener('wheel', onWheel, { passive: false })
+    el.addEventListener('scroll', onScrollParallax, { passive: true })
     window.addEventListener('keydown', onKeyDown)
     return () => {
       el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('scroll', onScrollParallax)
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [])

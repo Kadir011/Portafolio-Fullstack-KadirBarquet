@@ -1,7 +1,9 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Download } from 'lucide-react'
+import { animate, stagger, createScope, type Scope } from 'animejs'
 import { SocialLinks } from '@/components/ui/social-links'
 import { PhotoTilt } from '@/components/ui/photo-tilt'
 
@@ -12,9 +14,37 @@ const facts = [
 ]
 
 export function Hero() {
+  const root = useRef<HTMLElement>(null)
+  const scope = useRef<Scope | null>(null)
+
+  useEffect(() => {
+    const el = root.current
+    if (!el) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      el.querySelectorAll<HTMLElement>('.hero-item').forEach((item) => (item.style.opacity = '1'))
+      return
+    }
+
+    scope.current = createScope({ root: el }).add(() => {
+      animate('.hero-item', {
+        opacity: [0, 1],
+        translateY: [16, 0],
+        duration: 700,
+        delay: stagger(90),
+        ease: 'outQuint',
+      })
+    })
+
+    return () => scope.current?.revert()
+  }, [])
+
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 pt-16 text-center sm:px-6 sm:pt-24">
-      <div className="animate-fade-in-up flex justify-center">
+    <section
+      ref={root}
+      className="mx-auto max-w-4xl px-4 pb-16 pt-16 text-center sm:px-6 sm:pt-24"
+    >
+      <div className="hero-item flex justify-center">
         <PhotoTilt>
           <div className="device-frame">
             <Image
@@ -30,25 +60,25 @@ export function Hero() {
         </PhotoTilt>
       </div>
 
-      <p className="animate-fade-in-up animate-delay-100 mt-7 font-mono text-xs text-accent">
+      <p className="hero-item mt-7 font-mono text-xs text-accent">
         <span className="text-muted">$</span> KB
       </p>
 
-      <h1 className="animate-fade-in-up animate-delay-100 mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+      <h1 className="hero-item mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
         Kadir <span className="text-accent">Barquet Bravo</span>
       </h1>
 
-      <p className="animate-fade-in-up animate-delay-100 mt-3 font-mono text-sm text-muted">
+      <p className="hero-item mt-3 font-mono text-sm text-muted">
         full_stack_developer <span className="text-border-hover">·</span> backend-first
       </p>
 
-      <p className="animate-fade-in-up animate-delay-200 mx-auto mt-5 max-w-2xl text-base text-muted sm:text-lg">
+      <p className="hero-item mx-auto mt-5 max-w-2xl text-base text-muted sm:text-lg">
         Construyo sistemas comerciales y plataformas transaccionales con
         Django, Node.js y React — priorizando consistencia de datos,
         idempotencia y arquitectura lista para producción.
       </p>
 
-      <div className="animate-fade-in-up animate-delay-200 mt-6 flex flex-wrap justify-center gap-2">
+      <div className="hero-item mt-6 flex flex-wrap justify-center gap-2">
         {facts.map((fact) => (
           <span
             key={fact.label}
@@ -60,7 +90,7 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="animate-fade-in-up animate-delay-300 mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
+      <div className="hero-item mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
         <a
           href="#proyectos"
           onClick={(e) => {
@@ -69,7 +99,7 @@ export function Hero() {
               .getElementById('proyectos')
               ?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' })
           }}
-          className="group rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-[#05130d] transition-all duration-200 hover:brightness-110 active:brightness-95"
+          className="group rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-bg transition-all duration-200 hover:brightness-110 active:brightness-95"
         >
           Ver proyectos
           <span className="ml-1.5 inline-block transition-transform duration-200 group-hover:translate-x-0.5">
@@ -87,7 +117,7 @@ export function Hero() {
         </a>
       </div>
 
-      <SocialLinks className="animate-fade-in-up animate-delay-300 mt-6 justify-center" />
+      <SocialLinks className="hero-item mt-6 justify-center" />
     </section>
   )
 }

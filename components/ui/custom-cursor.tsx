@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { animate } from 'animejs'
 
 const INTERACTIVE_SELECTOR =
   'a, button, input, textarea, select, [role="button"], [data-cursor-hover]'
@@ -8,9 +9,6 @@ const INTERACTIVE_SELECTOR =
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const boxRef = useRef<HTMLDivElement>(null)
-  const target = useRef({ x: 0, y: 0 })
-  const box = useRef({ x: 0, y: 0 })
-  const raf = useRef<number | null>(null)
   const hovered = useRef(false)
 
   useEffect(() => {
@@ -21,9 +19,20 @@ export function CustomCursor() {
     document.documentElement.classList.add('custom-cursor-active')
 
     function onMove(e: MouseEvent) {
-      target.current = { x: e.clientX, y: e.clientY }
+      // El punto sigue el mouse al instante; el marco lo persigue con
+      // un ease de resorte — cada evento retarget-ea la animación en curso.
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`
+      }
+
+      if (boxRef.current) {
+        animate(boxRef.current, {
+          translateX: e.clientX,
+          translateY: e.clientY,
+          duration: 500,
+          ease: 'out(3)',
+          composition: 'replace',
+        })
       }
 
       const el = document.elementFromPoint(e.clientX, e.clientY)
@@ -44,26 +53,15 @@ export function CustomCursor() {
       boxRef.current?.classList.remove('is-hidden')
     }
 
-    function loop() {
-      box.current.x += (target.current.x - box.current.x) * 0.18
-      box.current.y += (target.current.y - box.current.y) * 0.18
-      if (boxRef.current) {
-        boxRef.current.style.transform = `translate3d(${box.current.x}px, ${box.current.y}px, 0) translate(-50%, -50%)`
-      }
-      raf.current = requestAnimationFrame(loop)
-    }
-
     window.addEventListener('mousemove', onMove, { passive: true })
     document.documentElement.addEventListener('mouseleave', onLeave)
     document.documentElement.addEventListener('mouseenter', onEnter)
-    raf.current = requestAnimationFrame(loop)
 
     return () => {
       document.documentElement.classList.remove('custom-cursor-active')
       window.removeEventListener('mousemove', onMove)
       document.documentElement.removeEventListener('mouseleave', onLeave)
       document.documentElement.removeEventListener('mouseenter', onEnter)
-      if (raf.current) cancelAnimationFrame(raf.current)
     }
   }, [])
 

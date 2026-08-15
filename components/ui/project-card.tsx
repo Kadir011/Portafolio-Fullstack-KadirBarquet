@@ -1,14 +1,42 @@
+'use client'
+
+import { useRef } from 'react'
 import Image from 'next/image'
+import { animate, spring } from 'animejs'
 import type { Project } from '@/types/project'
 import { TechBadge } from './tech-badge'
 
 export function ProjectCard({ project }: { project: Project }) {
+  const ref = useRef<HTMLElement>(null)
   const isFlagship = project.role === 'flagship'
   const isLive = project.status === 'live'
 
+  function handleMouseEnter() {
+    const el = ref.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    animate(el, {
+      translateY: -4,
+      duration: 300,
+      ease: spring({ stiffness: 200, damping: 16 }),
+    })
+  }
+
+  function handleMouseLeave() {
+    const el = ref.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    animate(el, {
+      translateY: 0,
+      duration: 400,
+      ease: spring({ stiffness: 200, damping: 16 }),
+    })
+  }
+
   return (
     <article
-      className={`overflow-hidden rounded-2xl border border-border bg-surface/60 transition-all duration-300 hover:border-border-hover hover:bg-surface ${
+      ref={ref}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`overflow-hidden rounded-2xl border border-border bg-surface/60 transition-colors duration-300 hover:border-border-hover hover:bg-surface ${
         isFlagship ? 'ring-1 ring-accent/25' : ''
       }`}
     >
@@ -82,7 +110,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg bg-accent px-4 py-2 text-center font-medium text-[#05130d] transition-all duration-200 hover:brightness-110 active:brightness-95"
+              className="rounded-lg bg-accent px-4 py-2 text-center font-medium text-bg transition-all duration-200 hover:brightness-110 active:brightness-95"
             >
               Ver demo
             </a>
