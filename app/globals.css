@@ -100,10 +100,10 @@ body {
   background: var(--color-border-hover);
 }
 
-/* ── Fondo: retícula tipo blueprint (global) + blobs de gradiente
-   por sección. La retícula referencia el mundo de sistemas/arquitectura
-   del contenido; los blobs le dan a cada panel una atmósfera propia
-   y la respiran/desplazan con animejs (ver section-backdrop.tsx) ── */
+/* ── Fondo: retícula tipo blueprint (global) + una grilla de puntos
+   por sección que pulsa en onda expansiva con animejs (stagger +
+   opción "grid", el mismo patrón que usa la home de animejs.com) —
+   ver section-backdrop.tsx ── */
 .grid-bg {
   position: fixed;
   inset: 0;
@@ -119,16 +119,24 @@ body {
 
 .section-backdrop {
   position: absolute;
-  inset: 0;
+  inset: 6%;
   z-index: -1;
-  overflow: hidden;
   pointer-events: none;
 }
 
-.section-blob {
+.dot-grid-backdrop {
   position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.dot-cell {
+  width: 4px;
+  height: 4px;
   border-radius: 9999px;
-  filter: blur(6px);
+  background: var(--color-accent);
+  opacity: 0.14;
   will-change: transform, opacity;
 }
 
