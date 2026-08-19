@@ -22,7 +22,7 @@ export const proyectos: Project[] = [
     ],
     image: '/images/proyectos/apruebaya.png',
   },
-  {
+    {
     slug: 'sistema-ventas-supermercado',
     name: 'MySupermarket',
     tagline: 'Plataforma full-stack de POS + e-commerce con arquitectura SOLID',
@@ -37,6 +37,7 @@ export const proyectos: Project[] = [
     stack: ['Python', 'Django', 'PostgreSQL', 'Supabase', 'Tailwind CSS', 'Docker'],
     highlights: [
       'Idempotencia end-to-end: UUID único + constraint a nivel de base de datos',
+      'Checkout simulado con validación de tarjeta (algoritmo de Luhn) y manejo de idempotencia en el flujo de pago',
       'Patrones Strategy (pagos), Singleton (idempotencia), Builder/Director (contexto del chatbot)',
       'Chatbot con Gemini AI, prompts diferenciados por rol (admin/cliente/invitado)',
       'Auditoría cross-browser con fixes documentados (Safari iOS, Firefox)',

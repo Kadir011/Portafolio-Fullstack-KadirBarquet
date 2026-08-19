@@ -8,8 +8,8 @@ import { SocialLinks } from '@/components/ui/social-links'
 import { PhotoTilt } from '@/components/ui/photo-tilt'
 
 const facts = [
-  { label: '+3 años de experiencia' },
-  { label: 'Liderazgo técnico de equipo' },
+  { label: 'Backend-first · Django & Node.js' },
+  { label: 'Coordinación técnica de equipo' },
   { label: 'Guayaquil, Ecuador' },
 ]
 

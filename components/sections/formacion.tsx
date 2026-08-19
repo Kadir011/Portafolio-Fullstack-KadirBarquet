@@ -6,7 +6,7 @@ const timeline = [
     type: 'educación',
     title: 'Ingeniería en Software',
     subtitle: 'Universidad Estatal de Milagro',
-    period: 'jun 2020 — jul 2026',
+    period: '2020 — 2026',
   },
   {
     icon: Briefcase,
@@ -15,7 +15,7 @@ const timeline = [
     subtitle: 'Freelance / Autónomo',
     period: 'sep 2022 — presente',
     points: [
-      'POS + E-Commerce con 10+ módulos, 0% ventas duplicadas gracias a idempotencia end-to-end',
+      'POS + E-Commerce con 10+ módulos, con idempotencia end-to-end para prevenir duplicidad de ventas bajo concurrencia',
       'RBAC + JWT y pipeline CI/CD para arquitectura desacoplada frontend/backend',
     ],
   },
@@ -26,8 +26,8 @@ const timeline = [
     subtitle: 'EMOVIM EP (Prácticas Preprofesionales)',
     period: 'sep 2025 — nov 2025',
     points: [
-      'Lideré equipo de 2 devs en la digitalización del sistema de permisos vehiculares vía QR',
-      '-15% errores operativos mediante validaciones automatizadas',
+      'Coordiné técnicamente a un equipo de 2 devs en la digitalización del sistema de permisos vehiculares vía QR',
+      'Reduje errores operativos mediante validaciones automatizadas, cumpliendo el alcance dentro del plazo institucional',
     ],
   },
 ]

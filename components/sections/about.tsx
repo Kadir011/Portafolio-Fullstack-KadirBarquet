@@ -3,15 +3,15 @@ import {
   SiDjango,
   SiFastapi,
   SiNodedotjs,
-  SiReact,
   SiPostgresql,
-  SiSupabase,
   SiDocker,
+  SiPytest,
+  SiJsonwebtokens,
 } from 'react-icons/si'
 import { TiltCard } from '@/components/ui/tilt-card'
 
 const stats = [
-  { shape: 'blue', value: '3+', label: 'años de experiencia' },
+  { shape: 'blue', value: '3', label: 'sistemas en producción' },
   { shape: 'violet', value: '4', label: 'proyectos entregados' },
   { shape: 'cyan', value: '4', label: 'certificaciones' },
 ] as const
@@ -21,10 +21,10 @@ const skills = [
   { icon: SiDjango, label: 'Django' },
   { icon: SiFastapi, label: 'FastAPI' },
   { icon: SiNodedotjs, label: 'Node.js' },
-  { icon: SiReact, label: 'React' },
   { icon: SiPostgresql, label: 'PostgreSQL' },
-  { icon: SiSupabase, label: 'Supabase' },
   { icon: SiDocker, label: 'Docker' },
+  { icon: SiJsonwebtokens, label: 'JWT / RBAC' },
+  { icon: SiPytest, label: 'Pytest' },
 ]
 
 const skillColors = ['var(--color-accent)', 'var(--color-violet)', 'var(--color-cyan)']
@@ -68,6 +68,9 @@ export function About() {
             )
           })}
         </div>
+        <p className="mt-6 text-center font-mono text-[11px] text-muted sm:text-left">
+          Scrum · Kanban · Desarrollo asistido por agentes de IA con revisión y validación propia
+        </p>
       </div>
     </section>
   )
