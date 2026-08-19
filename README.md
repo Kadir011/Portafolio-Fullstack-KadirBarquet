@@ -34,6 +34,15 @@
   - [Características](#características)
   - [Tecnologías](#tecnologías)
   - [Estructura del proyecto](#estructura-del-proyecto)
+  - [Requisitos](#requisitos)
+  - [Instalación](#instalación)
+  - [Variables de entorno](#variables-de-entorno)
+  - [Configuración de servicios externos](#configuración-de-servicios-externos)
+    - [Supabase](#supabase)
+    - [Mailgun](#mailgun)
+  - [Despliegue en Vercel](#despliegue-en-vercel)
+  - [Contenido y proyectos mostrados](#contenido-y-proyectos-mostrados)
+  - [Autor](#autor)
 
 ---
 
@@ -117,3 +126,168 @@ El sitio está pensado para responder tres preguntas en los primeros segundos de
 </table>
 
 ## Estructura del proyecto
+
+```
+portafolio-kadir/
+├── app/
+│   ├── layout.tsx              # Layout raíz: fuentes, metadata, fondo, splash screen, cursor, scroll progress
+│   ├── page.tsx                # Home: ensambla las secciones como paneles (una por bloque de scroll)
+│   ├── globals.css             # Tailwind + tokens de color + animaciones base (blobs, timeline, stat-orb)
+│   └── api/
+│       ├── contact/
+│       │   └── route.ts        # POST — guarda en Supabase + envía email vía Mailgun
+│       └── download-cv/
+│           └── route.ts        # GET — fuerza la descarga del CV
+├── components/
+│   ├── layout/
+│   │   ├── navbar.tsx          # Navbar con menú hamburguesa (Client Component)
+│   │   └── footer.tsx
+│   ├── sections/
+│   │   ├── hero.tsx            # Foto, nombre, tagline, CTAs, redes — animado con anime.js
+│   │   ├── about.tsx           # Stats, stack principal y metodología (incl. IA como asistente de desarrollo)
+│   │   ├── formacion.tsx       # Timeline de educación y experiencia + certificaciones
+│   │   ├── proyectos.tsx       # Grid de proyectos con TiltCard
+│   │   └── contacto.tsx        # Formulario de contacto
+│   └── ui/
+│       ├── project-card.tsx    # Card individual de proyecto (con imagen)
+│       ├── tech-badge.tsx      # Badge de tecnología
+│       ├── contact-form.tsx    # Formulario (Client Component)
+│       ├── social-links.tsx    # Íconos LinkedIn/GitHub (react-icons) + Email (lucide-react)
+│       ├── tilt-card.tsx       # Wrapper de tilt 3D para las project cards
+│       ├── photo-tilt.tsx      # Wrapper de tilt 3D para la foto de perfil
+│       ├── reveal.tsx          # Wrapper de scroll-reveal (IntersectionObserver + anime.js)
+│       ├── page-loader.tsx     # Splash screen de entrada
+│       ├── custom-cursor.tsx   # Cursor personalizado
+│       ├── scroll-progress.tsx # Barra de progreso de scroll
+│       └── section-backdrop.tsx # Blobs/halos de gradiente, variante distinta por sección
+├── lib/
+│   ├── supabase/
+│   │   ├── client.ts           # Cliente Supabase para el navegador
+│   │   └── server.ts           # Cliente Supabase para el servidor
+│   └── data/
+│       └── proyectos.ts        # Array tipado con los proyectos mostrados
+├── types/
+│   └── project.ts              # Interface Project
+├── public/
+│   ├── images/
+│   │   ├── kadirbarquet.jpg    # Foto de perfil
+│   │   └── proyectos/          # Screenshots de cada proyecto
+│   └── cv/
+│       └── CV-Kadir-Barquet.pdf
+├── .env.local                  # Variables de entorno (no versionado)
+└── next.config.ts
+```
+
+## Requisitos
+
+- Node.js 18.18 o superior (probado con Node 22.x)
+- npm
+- Cuenta gratuita en [Supabase](https://supabase.com/)
+- Cuenta gratuita en [Mailgun](https://www.mailgun.com/)
+
+## Instalación
+
+```bash
+git clone https://github.com/Kadir011/Portafolio-Fullstack-KadirBarquet.git
+cd Portafolio-Fullstack-KadirBarquet
+
+npm install
+```
+
+Copia el archivo de variables de entorno de ejemplo y complétalo (ver sección siguiente):
+
+```bash
+cp .env.example .env.local
+```
+
+Levanta el servidor de desarrollo:
+
+```bash
+npm run dev
+```
+
+La aplicación queda disponible en `http://localhost:3000`.
+
+## Variables de entorno
+
+| Variable | Descripción | Dónde se usa |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Project URL de Supabase | Cliente y servidor |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Clave pública (segura de exponer, respeta RLS) | Cliente (navegador) |
+| `SUPABASE_SECRET_KEY` | Clave privada, nunca se expone al navegador | Solo servidor (Route Handlers) |
+| `MAILGUN_API_KEY` | API key del proyecto en Mailgun | Solo servidor |
+| `MAILGUN_DOMAIN` | Dominio de envío (sandbox o verificado) | Solo servidor |
+
+> ⚠️ `.env.local` está en `.gitignore` por defecto en Next.js. Nunca commitees claves reales.
+
+## Configuración de servicios externos
+
+### Supabase
+
+1. Crea un proyecto en [supabase.com](https://supabase.com/).
+2. Ve a **Settings → API Keys** y copia el Project URL, la Publishable key y la Secret key.
+3. Ejecuta este SQL en el **SQL Editor** para crear la tabla de mensajes de contacto con Row Level Security:
+
+```sql
+create table contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  message text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table contact_messages enable row level security;
+
+create policy "Cualquiera puede enviar un mensaje"
+  on contact_messages
+  for insert
+  to anon, authenticated
+  with check (true);
+```
+
+La política permite `INSERT` público (necesario para que el formulario funcione) pero bloquea `SELECT`/`UPDATE`/`DELETE` con la clave pública — solo la `SUPABASE_SECRET_KEY` desde el servidor puede leer los mensajes.
+
+### Mailgun
+
+1. Crea una cuenta en [mailgun.com](https://www.mailgun.com/) y genera una API key en **Sending → API Keys**.
+2. Si usas el dominio sandbox (`sandboxXXXX.mailgun.org`), ve a **Sending → Domain settings → Authorized Recipients** y autoriza el correo al que quieres recibir los mensajes del formulario — en modo sandbox, Mailgun solo entrega a destinatarios autorizados.
+3. Para producción con dominio propio, verifica un subdominio (por ejemplo `mg.tudominio.com`) en **Sending → Add domain**, agregando los registros DNS que Mailgun solicita.
+
+## Despliegue en Vercel
+
+El proyecto está desplegado en **[kadir-barquet-portfolio.vercel.app](https://kadir-barquet-portfolio.vercel.app/)**, con CI/CD automático: cada push a `main` genera un nuevo deploy de producción, y cada pull request genera un preview deploy independiente.
+
+Para desplegar tu propia copia:
+
+1. Sube el repositorio a GitHub (si no lo está ya).
+2. En [vercel.com](https://vercel.com/), selecciona **Add New → Project** e importa el repositorio.
+3. Vercel detecta Next.js automáticamente — no requiere configuración de build adicional.
+4. En **Settings → Environment Variables**, agrega las 5 variables listadas arriba (mismos valores que en `.env.local`).
+5. Despliega.
+
+## Contenido y proyectos mostrados
+
+Los proyectos que aparecen en la sección **Proyectos** viven en [`lib/data/proyectos.ts`](./lib/data/proyectos.ts) como un array tipado — agregar, editar o quitar un proyecto no requiere tocar ningún componente:
+
+- **[ApruebaYA](https://github.com/Kadir011/ApruebaYA-Proyecto-Grado)** — Plataforma de tutorías académicas con simulacros de examen generados por IA (proyecto de titulación)
+- **[MySupermarket](https://github.com/Kadir011/Sistema-de-Ventas-Supermercado)** — Sistema POS + E-Commerce con arquitectura SOLID e idempotencia end-to-end
+- **[ChatBot Survey Platform](https://github.com/Kadir011/Sistema-de-Encuestas-para-Chatbots-Academicos)** — Plataforma de recolección de datos sobre adopción de IA en educación
+- **[Asistente Cultural](https://github.com/Kadir011/Asistente-Cultural)** — En desarrollo local, pendiente de despliegue
+
+## Autor
+
+<div align="center">
+
+**Kadir Barquet Bravo**
+
+Full Stack Developer — Guayaquil, Ecuador
+
+<br/>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-kadir--barquet--bravo-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kadir-barquet-bravo/)
+[![GitHub](https://img.shields.io/badge/GitHub-Kadir011-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Kadir011)
+[![Email](https://img.shields.io/badge/Email-barquetbravokadir%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:barquetbravokadir@gmail.com)
+[![Live](https://img.shields.io/badge/Live_Demo-kadir--barquet--portfolio-3b82f6?style=for-the-badge&logo=vercel&logoColor=white)](https://kadir-barquet-portfolio.vercel.app/)
+
+</div>
