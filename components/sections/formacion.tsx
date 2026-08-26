@@ -7,6 +7,7 @@ const timeline = [
     title: 'Ingeniería en Software',
     subtitle: 'Universidad Estatal de Milagro',
     period: '2020 — 2026',
+    points: ['Grado sustentado (jul 2026) · título en trámite'],
   },
   {
     icon: Briefcase,
