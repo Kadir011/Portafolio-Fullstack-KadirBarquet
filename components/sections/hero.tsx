@@ -80,7 +80,7 @@ export function Hero() {
         </h1>
 
         <p className="hero-item mt-3 font-mono text-sm uppercase tracking-wide text-muted sm:text-base">
-          full-stack software engineer <span className="text-border-hover">·</span> backend-first
+          full-stack software developer <span className="text-border-hover">·</span> backend-first
         </p>
 
         <p className="hero-item mx-auto mt-5 max-w-xl text-base text-muted sm:text-lg md:mx-0">
@@ -102,8 +102,8 @@ export function Hero() {
         </div>
 
         <div className="hero-item mt-8 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
-          <a
-            href="#proyectos"
+          
+          <a  href="#proyectos"
             onClick={(e) => {
               e.preventDefault()
               document
@@ -118,8 +118,8 @@ export function Hero() {
             </span>
           </a>
 
-          <a
-            href="/cv/CV-Kadir-Barquet.pdf"
+          
+          <a  href="/cv/CV-Kadir-Barquet.pdf"
             download
             className="flex items-center justify-center gap-2 rounded-lg border border-border-hover px-5 py-2.5 text-sm font-medium text-ink transition-all duration-200 hover:border-accent/50 hover:text-accent"
           >
